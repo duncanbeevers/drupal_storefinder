@@ -1,0 +1,21 @@
+/* IE VML Security issue fix.
+ * For more details, see:
+ * http://googlemapsapi.blogspot.com/2006/09/vml-security-issue.html
+ */
+v\:* {
+  behavior:url(#default#VML);
+}
+
+#storefinder_content_table table, #storefinder_list table {
+	width: 100%;
+}
+
+#MarkerInfo {
+	color: #000000;
+	background-color: #FFFFFF;
+}
+
+#StoreTitle {
+	font-size: 16px;
+	font-weight: bold;
+}

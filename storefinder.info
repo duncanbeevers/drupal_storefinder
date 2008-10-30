@@ -1,0 +1,13 @@
+name = Store Finder
+description = Retail Store locator tool.
+package = Store Finder
+dependencies = tapir
+version = "5.x-1.x-dev"
+project = "Store Finder"
+
+
+; Information added by drupal.org packaging script on 2008-05-07
+version = "5.x-1.1"
+project = "storefinder"
+datestamp = "1210191618"
+

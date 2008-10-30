@@ -1,0 +1,85 @@
+<?php
+
+define('sf_googlemap_api_key',      'sf_googlemap_api_key');
+define('sf_googlemap_center',      'sf_googlemap_center');
+define('sf_googlemap_zoom',      'sf_googlemap_zoom');
+
+function storefinder_perm() {
+  return array('administer storefinder');
+}
+
+function storefinder_menu($may_cache) {
+  if ($may_cache) {
+    $items = array();
+	  $items[] = array(
+      'path' => 'locations',
+      'type' => MENU_NORMAL_ITEM,
+      'title' => t('Retail Store Locator'),
+      'callback' => 'storefinder_view_build',
+      'access' => user_access('access content'),
+    ); 
+    $items[] = array(
+      'path' => 'admin/content/slocations',
+      'title' => t('Store Locations'),
+      'description' => t('Manage Store Locations'),
+      'callback' => 'storefinder_admin_build',
+	    'access' => user_access('administer storefinder'),
+      'type' => MENU_NORMAL_ITEM,
+    );
+    $items[] = array(
+      'path' => 'admin/content/slocations/list',
+      'title' => t('List Location'),
+      'access' => user_access('administer storefinder'),
+      'type' => MENU_DEFAULT_LOCAL_TASK,
+      'weight' => -10,
+    );
+    $items[] = array(
+      'path' => 'admin/content/slocations/add',
+      'title' => t('Add Location'),
+      'callback' => 'drupal_get_form',
+      'callback arguments' => array('storefinder_location_form'),
+      'access' => user_access('administer storefinder'),
+      'type' => MENU_LOCAL_TASK,
+    );
+    $items[] = array(
+      'path' => 'admin/settings/storefinder',
+      'title' => t('Store Finder'),
+      'description' => t('Configure Store Finder Settings'),
+      'callback' => 'drupal_get_form',
+      'callback arguments' => array('storefinder_admin_settings'),
+      'access' => user_access('administer site configuration'),
+      'type' => MENU_NORMAL_ITEM,
+    );
+	}
+	if (is_numeric(arg(3)) && arg(4) == 'edit') {
+		$items[] = array(
+			'path' => 'admin/content/slocations/'. arg(3) .'/edit',
+			'title' => t('Edit Store Location'),
+			'callback' => 'storefinder_location_action',
+			'access' => user_access('administer storefinder'),
+			'type' => MENU_CALLBACK,
+		);
+	}
+	if (is_numeric(arg(3)) && arg(4) == 'delete') {
+		$items[] = array(
+			'path' => 'admin/content/slocations/'. arg(3) .'/delete',
+			'title' => t('Delete Store Location'),
+			'callback' => 'storefinder_location_action',
+			'access' => user_access('administer storefinder'),
+			'type' => MENU_CALLBACK,
+		);
+	}
+	$items[] = array(
+		'path' => 'locations/map/'. arg(2),
+		'title' => t('Store Location Map'),
+		'callback' => 'storefinder_map_view',
+		'access' => user_access('access content'),
+		'type' => MENU_CALLBACK,
+	);
+			
+	return $items;
+}
+
+require_once(drupal_get_path('module', 'storefinder') .'/storefinder_view_ui.inc');
+require_once(drupal_get_path('module', 'storefinder') .'/storefinder_build_ui.inc');
+require_once(drupal_get_path('module', 'storefinder') .'/storefinder_settings_ui.inc');
